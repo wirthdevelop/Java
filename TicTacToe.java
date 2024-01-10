@@ -2,24 +2,27 @@ import java.util.Scanner;
 
 public class TicTacToe {
 
+    // Spielfeld-Matrix und aktueller Spieler
     private static char[][] board = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}};
     private static char currentPlayer = 'X';
 
     public static void main(String[] args) {
-        printBoard();
+        printBoard(); // Spielfeld anzeigen
 
         while (true) {
-            makeMove();
-            printBoard();
+            makeMove(); // Zug machen
+            printBoard(); // Spielfeld anzeigen
 
+            // Überprüfe Gewinner oder Unentschieden
             if (checkWinner() || isBoardFull()) {
                 break;
             }
 
-            switchPlayer();
+            switchPlayer(); // Spieler wechseln
         }
     }
 
+    // Spielfeld anzeigen
     private static void printBoard() {
         System.out.println("-------------");
         for (int i = 0; i < 3; i++) {
@@ -32,6 +35,7 @@ public class TicTacToe {
         }
     }
 
+    // Zug machen
     private static void makeMove() {
         Scanner scanner = new Scanner(System.in);
         int row, col;
@@ -42,13 +46,16 @@ public class TicTacToe {
             col = scanner.nextInt() - 1;
         } while (row < 0 || row >= 3 || col < 0 || col >= 3 || board[row][col] != ' ');
 
-        board[row][col] = currentPlayer;
+        board[row][col] = currentPlayer; // Zug ins Spielfeld eintragen
+        scanner.close(); // Scanner schließen, um Resource-Leak zu vermeiden
     }
 
+    // Spieler wechseln
     private static void switchPlayer() {
         currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
     }
 
+    // Überprüfe Gewinner
     private static boolean checkWinner() {
         // Überprüfe Reihen und Spalten
         for (int i = 0; i < 3; i++) {
@@ -72,18 +79,19 @@ public class TicTacToe {
             return true;
         }
 
-        return false;
+        return false; // Kein Gewinner
     }
 
+    // Überprüfe, ob das Spielfeld voll ist (Unentschieden)
     private static boolean isBoardFull() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (board[i][j] == ' ') {
-                    return false;
+                    return false; // Spielfeld ist nicht voll
                 }
             }
         }
         System.out.println("Unentschieden! Das Spiel endet unentschieden.");
-        return true;
+        return true; // Spielfeld ist voll
     }
 }
